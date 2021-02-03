@@ -9,14 +9,9 @@
 
 void initTable();
 void printTable();
-<<<<<<< HEAD
 void update(int row, int col);
 void run(int row, int col, int fps);
-=======
-void update(int row, int cols,int  height);
-void run(int row, int col, int fps);
 void usleep(int fps);
->>>>>>> d714be40424353f384246cc92b982c6f2e3c6c2d
 
 int table[WORLD_LENGTH][WORLD_WIDTH];
 
@@ -24,13 +19,9 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //main function
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
-<<<<<<< HEAD
-    int fps = 30, j = 1, i;
-=======
     // default fps is
     int fps = 30;
     int j = 1, i, k;
->>>>>>> d714be40424353f384246cc92b982c6f2e3c6c2d
     int row, col, height;
 
     //we need to use atoi
@@ -58,17 +49,8 @@ int main(int argc, char* argv[]) {
         height = atoi(argv[i + 2]);
     }
 
-
-<<<<<<< HEAD
-    run(11, 11, fps);
-
-
-    //run simulation forever
-    //run(11, 11, 1);
-=======
     // run simulation forever
     run(11, 11, fps);
->>>>>>> d714be40424353f384246cc92b982c6f2e3c6c2d
 
 }
 
@@ -99,37 +81,21 @@ void printTable() {
 }
 
 //update the grid/run the game
-<<<<<<< HEAD
 void update(int row, int col) {
     int i = row, j = col;
     table[row][col]++; //= height;
-=======
-void update(int row, int col, int height) {
-    int i = row;
-    int j = col;
-
-    table[i][j] = height;
->>>>>>> d714be40424353f384246cc92b982c6f2e3c6c2d
 
     // BASE CASE: if -1 or a sink, stays at height = -1
     if (table[i][j] < 0)
         table[i][j] = -1;
 
     // BASE CASE: if < 8 then add 1 to the heap and move on
-<<<<<<< HEAD
     if (table[row][col] < 8) {
        return;
     }
 
     // else if its >= 8 then topple heap by
     else if (table[row][col] > 8) {
-=======
-    if(table[i][j] < 8)
-        table[i][j]++;
-
-    // else if its >= 8 then topple heap by
-    else {
->>>>>>> d714be40424353f384246cc92b982c6f2e3c6c2d
         table[i][j] = 1;
 
         if(i + 1 < 23) {
@@ -214,16 +180,9 @@ void update(int row, int col, int height) {
 }
 
 // infinite loop of update
-<<<<<<< HEAD
 // row col and heigh are 11 11 and 1 respectively
 void run(int row, int col, int fps) {
     while(true) {
-=======
-void run(int row, int col, int fps) {
-    while(true) {
-      // updates row 11 col 11 and height 0 
-      update(row, col, 0);
->>>>>>> d714be40424353f384246cc92b982c6f2e3c6c2d
         printTable();
         update(row, col);
 
