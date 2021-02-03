@@ -18,7 +18,7 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
     // default fps is
-    int fps = 0,
+    int fps = 30,
     int j = 1, i;
     int row, col, height;
 
@@ -49,9 +49,9 @@ int main(int argc, char* argv[]) {
         update(row, col, height);
     }
 
-    usleep(1000000 / fps);
+
     // run simulation forever
-    run(11, 11, argv[j]);
+    run(11, 11, argv[j], fps);
 
 }
 
@@ -122,14 +122,16 @@ void update(int row, int col, int height) {
         if(i + 1 < 23 && j + 1 < 23)
             update(i + 1, j + 1, table[i + 1][j + 1]++); //bottom right
     }
-
-    printTable();
 }
 
 // infinite loop of update
 // row col and heigh are 11 11 and 1 respectively
-void run(int row, int col, int height) {
+void run(int row, int col, int height, int fps) {
     while(true) {
         update(row, col, height);
+        printTable();
+
+        // usleep pauses program for a sec
+        usleep(1000000 / fps);
     }
 }
