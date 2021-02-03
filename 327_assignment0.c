@@ -1,8 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
 #define WORLD_LENGTH 23
 #define WORLD_WIDTH 23
+
+void initTable();
+void printTable();
+void update(int row, int col, int height);
+void run(int row, int col, int height);
 
 int table[WORLD_LENGTH][WORLD_WIDTH];
 
@@ -10,26 +17,30 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //main function
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
-    int fps = 0, i, j = 1;
+    // default fps is
+    int fps = 0,
+    int j = 1, i;
+    int row, col, height;
+
     //we need to use atoi
     //we are scanning argv[]
     initTable();
 
     //looking at fps
     if (argc > 1) {
-		    //could also be !strcmp("--fps", argv[1])
+        //could also be !strcmp("--fps", argv[1])
         //looking at command line, if the first parameter is '--fps' then fps would be the number after
-    		if (strcmp("--fps", argv[1]) == 0)
-    			fps = atoi(argv[2]);
+        if (strcmp("--fps", argv[1]) == 0)
+            fps = atoi(argv[2]);
 
-          //j is j parameter in command line after ./sandpile
-          //if no '--fps', then j = 1
-          j = 3;
-		}
+        //j is j parameter in command line after ./sandpile
+        //if no '--fps', then j = 1
+        j = 3;
+    }
 
     // accept and pass on an unlimited number of parameters y x h
     //it is i+=3 because we're updating the net three numbers below
-    for (i = j; i =< argc; i+=3) { //i+=3??????????
+    for (i = j; i <= argc; i+=3) { //i+=3??????????
 
         row = atoi(argv[i]);
         col = atoi(argv[i + 1]);
@@ -38,8 +49,9 @@ int main(int argc, char* argv[]) {
         update(row, col, height);
     }
 
+    usleep(1000000 / fps);
     // run simulation forever
-    run();
+    run(11, 11, argv[j]);
 
 }
 
@@ -48,10 +60,10 @@ void initTable() {
     int l, w;
 
     for (l = 0; l < WORLD_LENGTH; l++) {
-  			for (w = 0; w < WORLD_WIDTH; w++) {
-  			     table[l][w] = 0;
-  			}
-		}
+        for (w = 0; w < WORLD_WIDTH; w++) {
+            table[l][w] = 0;
+        }
+    }
 }
 
 //print the grid - DONE
@@ -70,46 +82,54 @@ void printTable() {
 
 //update the grid/run the game
 void update(int row, int col, int height) {
-    int num = table[row][col];
-    int[][] nextSandpile = new int[row][col];
+    int i = row;
+    int j = col;
+    table[row][col] = height;
 
+    // BASE CASE: if -1 or a sink, stays at height = -1
+    if(table[i][j] < 0)
+        table[i][j] = -1;
 
-      for(int i = 0; i < 23; i++) {
-    			for(int j = 0; j < 23; j++) {
+    // BASE CASE: if < 8 then add 1 to the heap and move on
+    if(num < 8)
+        table[i][j]++;
 
-              //if -1 or a sink, stays at height = -1
-              if(table[i][j] < 0)
-                nextSandpile[i][j] = -1;
+    // else if its >= 8 then topple heap by
+    else if (num >= 8) {
+        table[i][j] = 1;
 
-              // if < 9 then everything in table gets put in nextSandpile
-              if(num < 9)
-                nextSandpile[i][j] = table[i][j];
+        if(i + 1 < 23)
+            update(i + 1, j, table[i+1][j]++); //bottom box
 
-      			  if(num >= 9) {
-                nextSandpile[i][j] += (num - 9);
+        if(i - 1 >= 0)
+            update(i-1, j, table[i-1][j]++); //top box
 
-            			if(i + 1 < 23)
-            						nextSandpile[i+1][j]++;
+        if(j + 1 < 23)
+            update(i, j + 1, table[i][j++]++); //right box
 
-            			if(i - 1 >= 0)
-            						nextSandpile[i-1][j]++;
+        if(j - 1 >= 0)
+            update(i, j - 1, table[i][j-1]++); //left box
 
-            			if(j + 1 < 23)
-            						nextSandpile[i][j+1]++;
+        if(i - 1 >= 0 && j - 1 >= 0)
+            update(i - 1, j - 1, table[i-1][j-1]++); //top left
 
-            			if(j - 1 >= 0)
-            						nextSandpile[i][j-1]++;
-      				}
-    		 }
+        if(i - 1 >= 0 && j + 1 < 23)
+            update(i - 1, j + 1, table[i - 1][j+1]++); //top right
+
+        if(i + 1 < 23 && j - 1 >= 0)
+            update(i + 1, j - 1, table[i+1][j-1]++); //bottom left
+
+        if(i + 1 < 23 && j + 1 < 23)
+            update(i + 1, j + 1, table[i + 1][j + 1]++); //bottom right
     }
 
-    table = nextSandpile;
-    printTable(nextSandpile);
+    printTable();
 }
 
-//infinite loop of update
-void run() {
+// infinite loop of update
+// row col and heigh are 11 11 and 1 respectively
+void run(int row, int col, int height) {
     while(true) {
-        update();
+        update(row, col, height);
     }
 }
