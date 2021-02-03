@@ -19,7 +19,7 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //main function
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
-    int fps = 30, j = 1, i;
+    int fps = 30, j = 1, i, k;
     int row, col, height;
 
     //we need to use atoi
@@ -36,15 +36,17 @@ int main(int argc, char* argv[]) {
         //j is j parameter in command line after ./sandpile
         //if no '--fps', then j = 1
         j = 3;
-    }
+        
+        for (i = j; i <= argc; i += 3) { //i+=3??????????
 
-    // accept and pass on an unlimited number of parameters y x h
-    //it is i+=3 because we're updating the net three numbers below
-    for (i = j; i <= argc; i += 3) { //i+=3??????????
-
-        row = atoi(argv[i]);
-        col = atoi(argv[i + 1]);
-        height = atoi(argv[i + 2]);
+            row = atoi(argv[i]);
+            col = atoi(argv[i + 1]);
+            height = atoi(argv[i + 2]);
+        
+            for (k = 0; k < height; k++) {
+            update(row, col);
+            }
+        }
     }
 
     run(11, 11, fps);
