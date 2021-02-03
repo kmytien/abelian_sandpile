@@ -11,7 +11,7 @@ void initTable();
 void printTable();
 void update(int row, int col);
 void run(int row, int col, int fps);
-void usleep(int fps);
+void moreThan8(int row, int col);
 
 int table[WORLD_LENGTH][WORLD_WIDTH];
 
@@ -19,9 +19,7 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //main function
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
-    // default fps is
-    int fps = 30;
-    int j = 1, i, k;
+    int fps = 30, j = 1, i;
     int row, col, height;
 
     //we need to use atoi
@@ -49,7 +47,6 @@ int main(int argc, char* argv[]) {
         height = atoi(argv[i + 2]);
     }
 
-    // run simulation forever
     run(11, 11, fps);
 
 }
@@ -99,84 +96,53 @@ void update(int row, int col) {
         table[i][j] = 1;
 
         if(i + 1 < 23) {
-            //update(i + 1, j); //bottom box
+            //bottom box
             table[i + 1][j]++;
-
-            if (table[i + 1][j] > 8)
-                update(i + 1, j);
-
-            //i++;
-            //update(i, j);
+            moreThan8(i + 1, j);
         }
         if(i - 1 >= 0) {
-            //update(i - 1, j); //top box
+            //top box
             table[i - 1][j]++;
-
-            if (table[i - 1][j] > 8)
-                update(i - 1, j);
-            //i--;
-            //update(i, j);
+            moreThan8(i - 1, j);
         }
         if(j + 1 < 23) {
-            //update(i, j + 1); //right box
+            //right box
             table[i][j + 1]++;
-
-            if (table[i][j + 1] > 8)
-                update(i, j + 1);
-            //j++;
-            //update(i, j);
+            moreThan8(i, j + 1);
         }
         if(j - 1 >= 0) {
-            //update(i, j - 1); //left box
+            //left box
             table[i][j - 1]++;
-
-            if (table[i][j - 1] > 8)
-                update(i, j - 1);
-            //j--;
-            //update(i, j);
+            moreThan8(i, j - 1);
         }
         if(i - 1 >= 0 && j - 1 >= 0) {
-            //update(i - 1, j - 1); //top left
+            //top left
             table[i - 1][j - 1]++;
-
-            if (table[i - 1][j - 1] > 8)
-                update(i - 1, j - 1);
-            //i--;
-            //j--;
-            //update(i, j);
+            moreThan8(i - 1, j - 1);
         }
         if(i - 1 >= 0 && j + 1 < 23) {
-            //update(i - 1, j + 1); //top right
+            //top right
             table[i - 1][j + 1]++;
+            moreThan8(i - 1, j + 1);
 
-            if (table[i - 1][j + 1] > 8)
-                update(i - 1, j + 1);
-            //i--;
-            //j++;
-            //update(i, j);
         }
         if(i + 1 < 23 && j - 1 >= 0) {
-            //update(i + 1, j - 1); //bottom left
+            //bottom left
             table[i + 1][j - 1]++;
-
-            if (table[i + 1][j - 1] > 8)
-                update(i + 1, j - 1);
-            //i++;
-            //j--;
-            //update(i, j);
+            moreThan8(i + 1, j - 1);
         }
         if(i + 1 < 23 && j + 1 < 23) {
-            //update(i + 1, j + 1); //bottom right
+            //bottom right
             table[i + 1][j + 1]++;
-
-            if (table[i + 1][j + 1] > 8)
-                update(i + 1, j + 1);
-            //i++;
-            //j++;
-            //update(i, j);
+            moreThan8(i + 1, j + 1);
         }
 
     }
+}
+
+void moreThan8(int i, int j) {
+    if (table[i][j] > 8)
+        update(i, j);
 }
 
 // infinite loop of update
