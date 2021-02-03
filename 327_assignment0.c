@@ -8,8 +8,9 @@
 
 void initTable();
 void printTable();
-void update(int row, int col, int height);
-void run(int row, int col, int height);
+void update(int row, int cols,int  height);
+void run(int row, int col, int fps);
+void usleep(int fps);
 
 int table[WORLD_LENGTH][WORLD_WIDTH];
 
@@ -18,8 +19,8 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
     // default fps is
-    int fps = 30,
-    int j = 1, i;
+    int fps = 30;
+    int j = 1, i, k;
     int row, col, height;
 
     //we need to use atoi
@@ -51,7 +52,7 @@ int main(int argc, char* argv[]) {
 
 
     // run simulation forever
-    run(11, 11, argv[j], fps);
+    run(11, 11, fps);
 
 }
 
@@ -84,18 +85,19 @@ void printTable() {
 void update(int row, int col, int height) {
     int i = row;
     int j = col;
-    table[row][col] = height;
+
+    table[i][j] = height;
 
     // BASE CASE: if -1 or a sink, stays at height = -1
     if(table[i][j] < 0)
         table[i][j] = -1;
 
     // BASE CASE: if < 8 then add 1 to the heap and move on
-    if(num < 8)
+    if(table[i][j] < 8)
         table[i][j]++;
 
     // else if its >= 8 then topple heap by
-    else if (num >= 8) {
+    else {
         table[i][j] = 1;
 
         if(i + 1 < 23)
@@ -126,9 +128,9 @@ void update(int row, int col, int height) {
 
 // infinite loop of update
 // row col and heigh are 11 11 and 1 respectively
-void run(int row, int col, int height, int fps) {
+void run(int row, int col, int fps) {
     while(true) {
-        update(row, col, height);
+      update(row, col, 0);
         printTable();
 
         // usleep pauses program for a sec
