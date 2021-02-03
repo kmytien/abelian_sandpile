@@ -19,7 +19,7 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //main function
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
-    int fps = 30, j = 1, i, k;
+    int fps = 10, j = 1, i, k;
     int row, col, height;
 
     //we need to use atoi
