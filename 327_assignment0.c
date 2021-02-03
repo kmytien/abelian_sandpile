@@ -127,9 +127,9 @@ void update(int row, int col, int height) {
 }
 
 // infinite loop of update
-// row col and heigh are 11 11 and 1 respectively
 void run(int row, int col, int fps) {
     while(true) {
+      // updates row 11 col 11 and height 0 
       update(row, col, 0);
         printTable();
 
