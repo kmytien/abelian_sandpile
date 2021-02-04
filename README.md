@@ -4,6 +4,7 @@
   - if grains of sand are >= 8 topple
   - if grains of sand are < 8, stable
   - adding a sink will not let the grains around it accumulate like normal
+- No extra challenges were coded in this project
 
 ### Project Group Members
 
