@@ -20,7 +20,7 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
     int fps = 30, j = 1, i;
-    int row, col, height;
+    int row = 11, col = 11, height = 1;
 
     initTable();
 
@@ -49,7 +49,12 @@ int main(int argc, char* argv[]) {
             table[row][col] = -1;
     }
 
-    run(11, 11, fps);
+    //making sure grains are placed correctly
+    if (height == -1)
+    	run(atoi(argv[j]), atoi(argv[j + 1]), fps);
+    	
+    else 
+    	run(row, col, fps);
 }
 
 //initialize the grid with zeros
