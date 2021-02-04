@@ -1,9 +1,10 @@
-02/03/2021 18:37 Code is functinal 
-02/03/2021 16:00 Fixed errors
-02/03/2021 13:34 HML Created Makefile and debugged
-02/02/2021 22:00 Fixed errors
-02/02/2021 21:40 Added to account for diagonals and used recursion
-02/02/2021 15:30 Implemented main function
-02/02/2021 15:30 Implemented run function
-02/01/2021 15:30 Implemented update function
-02/01/2021 14:45 Wrote down necessary functions and implemented print function
+02/03/2021 19:40 MTK: Fixed some errors regarding rules of abelian sandpile 
+02/03/2021 18:37 SA: Code is functional 
+02/03/2021 16:00 HML SA MTK: Fixed errors
+02/03/2021 13:34 HML: Created Makefile and debugged
+02/02/2021 22:00 SA: Fixed errors
+02/02/2021 21:40 HML SA MTK: Added to account for diagonals and used recursion
+02/02/2021 15:30 MTK Implemented main function
+02/02/2021 15:30 HML SA Implemented run function
+02/01/2021 15:30 SA Implemented update function
+02/01/2021 14:45 MTK SA HML Wrote down necessary functions and implemented print function
