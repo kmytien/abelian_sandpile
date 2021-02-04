@@ -1,6 +1,9 @@
 ## Project Simulating the Abelian Sandpile
 - A C Project for CS327 Assignment 0
-- This project models the Abelian Sandpile with the rules: If grains of sand are >= 8, topple, if < 8, stable
+- This project models the Abelian Sandpile with the rules: 
+  - if grains of sand are >= 8 topple
+  - if grains of sand are < 8, stable
+  - adding a sink will not let the grains around it accumulate like normal
 
 ### Project Group Members
 
