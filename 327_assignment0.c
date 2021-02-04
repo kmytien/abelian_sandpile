@@ -19,38 +19,37 @@ int table[WORLD_LENGTH][WORLD_WIDTH];
 //main function
 //argc is number of parameters, argv[] is parameter array
 int main(int argc, char* argv[]) {
-    int fps = 10, j = 1, i, k;
+    int fps = 30, j = 1, i;
     int row, col, height;
 
-    //we need to use atoi
-    //we are scanning argv[]
     initTable();
 
     //looking at fps
     if (argc > 1) {
-        //could also be !strcmp("--fps", argv[1])
-        //looking at command line, if the first parameter is '--fps' then fps would be the number after
-        if (strcmp("--fps", argv[1]) == 0)
+
+        //looking at command line, if the first parameter is '--fps' then fps would be the 		number after
+        if (strcmp("--fps", argv[1]) == 0) {
             fps = atoi(argv[2]);
 
-        //j is j parameter in command line after ./sandpile
-        //if no '--fps', then j = 1
-        j = 3;
-        
-        for (i = j; i <= argc; i += 3) { //i+=3??????????
-
-            row = atoi(argv[i]);
-            col = atoi(argv[i + 1]);
-            height = atoi(argv[i + 2]);
-        
-            for (k = 0; k < height; k++) {
-            update(row, col);
-            }
+            //j is j parameter in command line after ./sandpile
+            //if no '--fps', then j = 1
+            j = 3;
         }
     }
 
-    run(11, 11, fps);
+    //accept and pass on an unlimited number of parameters x & y
+    //it is i+=3 because we're updating the net three numbers below
+    for (i = j; i < argc; i += 3) {
+        row = atoi(argv[i]);
+        col = atoi(argv[i + 1]);
+        height = atoi(argv[i + 2]);
 
+        //accounting if user added sink
+        if (height <= -1)
+            table[row][col] = -1;
+    }
+
+    run(11, 11, fps);
 }
 
 //initialize the grid with zeros
@@ -64,11 +63,12 @@ void initTable() {
     }
 }
 
-//print the grid - DONE
+//print the grid
 void printTable() {
     int i, j;
     for (i = 0; i < WORLD_LENGTH; i++) {
         for (j = 0; j < WORLD_WIDTH; j++) {
+
             if (table[i][j] == -1)
                 printf("#");
             else
@@ -82,73 +82,78 @@ void printTable() {
 //update the grid/run the game
 void update(int row, int col) {
     int i = row, j = col;
-    table[row][col]++; //= height;
 
-    // BASE CASE: if -1 or a sink, stays at height = -1
-    if (table[i][j] < 0)
-        table[i][j] = -1;
+    //BASE CASE: if -1 or a sink, stays at height = -1
+    if (table[row][col] != -1)
+        table[row][col]++;
 
-    // BASE CASE: if < 8 then add 1 to the heap and move on
-    if (table[row][col] < 8) {
-       return;
-    }
+    //BASE CASE: if < 8 then add 1 to the heap and move on
+    if (table[row][col] < 8 && table[row][col] != -1)
+        return;
 
-    // else if its >= 8 then topple heap by
-    else if (table[row][col] > 8) {
+    //else if its >= 8 then topple sandpile
+    else if (table[row][col] > 8){
         table[i][j] = 1;
 
-        if(i + 1 < 23) {
+        if(i + 1 < 23 && table[i + 1][j] != -1) {
             //bottom box
             table[i + 1][j]++;
             moreThan8(i + 1, j);
         }
-        if(i - 1 >= 0) {
+
+        if(i - 1 >= 0 && table[i - 1][j] != -1) {
             //top box
             table[i - 1][j]++;
             moreThan8(i - 1, j);
         }
-        if(j + 1 < 23) {
+
+        if(j + 1 < 23 && table[i][j + 1] != -1) {
             //right box
             table[i][j + 1]++;
             moreThan8(i, j + 1);
         }
-        if(j - 1 >= 0) {
+
+        if(j - 1 >= 0 && table[i][j - 1] != -1) {
             //left box
             table[i][j - 1]++;
             moreThan8(i, j - 1);
         }
-        if(i - 1 >= 0 && j - 1 >= 0) {
+
+        if(i - 1 >= 0 && j - 1 >= 0 && table[i - 1][j - 1] != -1) {
             //top left
             table[i - 1][j - 1]++;
             moreThan8(i - 1, j - 1);
         }
-        if(i - 1 >= 0 && j + 1 < 23) {
+
+        if(i - 1 >= 0 && j + 1 < 23 && table[i - 1][j + 1] != -1) {
             //top right
             table[i - 1][j + 1]++;
             moreThan8(i - 1, j + 1);
 
         }
-        if(i + 1 < 23 && j - 1 >= 0) {
+
+        if(i + 1 < 23 && j - 1 >= 0 && table[i + 1][j - 1] != -1) {
             //bottom left
             table[i + 1][j - 1]++;
             moreThan8(i + 1, j - 1);
         }
-        if(i + 1 < 23 && j + 1 < 23) {
+
+        if(i + 1 < 23 && j + 1 < 23 && table[i + 1][j + 1] != -1) {
             //bottom right
             table[i + 1][j + 1]++;
             moreThan8(i + 1, j + 1);
         }
-
     }
 }
 
+//helper function calling recursion (this just makes it look nicer and less crowded)
 void moreThan8(int i, int j) {
     if (table[i][j] > 8)
         update(i, j);
 }
 
-// infinite loop of update
-// row col and heigh are 11 11 and 1 respectively
+//infinite loop of update
+//row col and height are 11 11 and 1 respectively
 void run(int row, int col, int fps) {
     while(true) {
         printTable();
