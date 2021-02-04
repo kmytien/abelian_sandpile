@@ -7,11 +7,15 @@
 #define WORLD_LENGTH 23
 #define WORLD_WIDTH 23
 
+/**
+    CS 327 Assignment 0: Haylee Lawrence, Sanjana Amatya, MyTien Kien
+    This program models the Abelian Sandpile with sinks :D
+**/
 void initTable();
 void printTable();
 void update(int row, int col);
 void run(int row, int col, int fps);
-void moreThan8(int row, int col);
+void moreThan8(int i, int j);
 
 int table[WORLD_LENGTH][WORLD_WIDTH];
 
@@ -45,16 +49,15 @@ int main(int argc, char* argv[]) {
         height = atoi(argv[i + 2]);
 
         //accounting if user added sink
-        if (height <= -1)
+        if (height == -1)
             table[row][col] = -1;
+        
+        else
+            table[row][col] = height;
     }
 
-    //making sure grains are placed correctly
-    if (height == -1)
-    	run(atoi(argv[j]), atoi(argv[j + 1]), fps);
-    	
-    else 
-    	run(row, col, fps);
+    //making sure grains are placed correctly in middle
+    run(11, 11, fps);
 }
 
 //initialize the grid with zeros
@@ -96,7 +99,7 @@ void update(int row, int col) {
     if (table[row][col] < 8 && table[row][col] != -1)
         return;
 
-    //else if its >= 8 then topple sandpile
+        //else if its >= 8 then topple sandpile
     else if (table[row][col] > 8){
         table[i][j] = 1;
 
